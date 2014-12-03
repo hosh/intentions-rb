@@ -7,16 +7,17 @@ module Intentions
     attr_reader :identifier, :promiser, :promisee, :body, :metadata
 
     let(:identifier) { Digest::SHA2.new.update(to_digest.inspect).to_s }
-    let(:sign)      { metadata[:sign] }
-    let(:scope)     { metadata[:scope] }
-    let(:timestamp) { Time.now.utc }
-    let(:salt)      { rand(100000) }
+    let(:sign)       { metadata[:sign] }
+    let(:scope)      { metadata[:scope] }
+    let(:timestamp)  { Time.now.utc }
+    let(:salt)       { rand(100000) }
 
     def initialize(_promiser, _promisee, _body, _metadata = {})
       @promiser = _promiser.freeze
       @promisee = _promisee.freeze
       @body     = _body.freeze
       @metadata = _metadata.freeze
+      self
     end
 
     def to_h
@@ -30,8 +31,22 @@ module Intentions
         body:      body,
         metadata:  metadata,
         timestamp: timestamp,
-        salt:      rand
+        salt:      salt
       }
+    end
+
+    class << self
+      @_table = {}
+
+      def [](identifier)
+        @_table[identifier]
+      end
+
+      def register(promise)
+        @_table[promise.identifier] = promise
+      end
+
+      alias []= register
     end
 
   end
