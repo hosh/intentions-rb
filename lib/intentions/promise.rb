@@ -36,17 +36,19 @@ module Intentions
     end
 
     class << self
-      @_table = {}
+      def _table
+        @_table ||= {}
+      end
 
       def [](identifier)
-        @_table[identifier]
+        _table[identifier]
       end
 
       def register(promise)
-        @_table[promise.identifier] = promise
+        _table[promise.identifier] = promise
       end
 
-      alias []= register
+      #alias []= register
     end
 
   end
