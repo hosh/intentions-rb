@@ -1,8 +1,5 @@
-source :rubygems
+source 'https://rubygems.org'
+
+gemspec
 
 gem 'rlet'
-
-group :development, :test do
-  gem 'rspec'
-  gem 'pry'
-end
