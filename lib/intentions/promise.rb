@@ -1,9 +1,12 @@
+require 'intentions/concerns/register'
 require 'rlet'
 require 'digest/sha2'
 
 module Intentions
   class Promise
     include Let
+    extend Intentions::Concerns::Register
+
     attr_reader :identifier, :promiser, :promisee, :body, :metadata
 
     let(:identifier) { Digest::SHA2.new.update(to_digest.inspect).to_s }
@@ -33,22 +36,6 @@ module Intentions
         timestamp: timestamp,
         salt:      salt
       }
-    end
-
-    class << self
-      def _table
-        @_table ||= {}
-      end
-
-      def [](identifier)
-        _table[identifier]
-      end
-
-      def register(promise)
-        _table[promise.identifier] = promise
-      end
-
-      #alias []= register
     end
 
   end
