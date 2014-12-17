@@ -1,24 +1,16 @@
+require 'intentions/concerns/register'
+
 module Intentions
   class Agent
+    extend Intentions::Concerns::Register
+
     attr_reader :name, :trusts
+    alias :identifier :name
+
 
     def initialize(name)
       @name   = name
       @trusts = {}
-    end
-
-    class << self
-      @_table = {}
-
-      def [](identifier)
-        @_table[identifier]
-      end
-
-      def register(agent)
-        @_table[agent.name] = agent
-      end
-
-      alias []= register
     end
   end
 end

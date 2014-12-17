@@ -15,7 +15,7 @@ module Intentions
               let(:registered_item) { subject[identifier] }
               let(:identifier)      { item.identifier }
 
-              it 'will register a promise' do
+              it "will register a #{item_type}" do
                 expect(registered_item).to eql(item)
               end
             end
