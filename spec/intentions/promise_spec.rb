@@ -1,17 +1,10 @@
 require 'spec_helper'
 require 'intentions/promise'
 
-RSpec.describe Intentions do
-  context '.register' do
-    subject { Intentions::Promise[identifier] }
+RSpec.describe Intentions::Promise do
+  subject { Intentions::Promise }
+  let(:promise)    { Intentions::Promise.new(:system, :user, { will_perform: :rspec } ) }
 
-    before(:each)    { Intentions::Promise.register(promise) }
-
-    let(:promise)    { Intentions::Promise.new(:system, :user, { will_perform: :rspec } ) }
-    let(:identifier) { promise.identifier }
-
-    it 'will register a promise' do
-      expect(subject).to eql(promise)
-    end
-  end
+  include Intentions::RSpec::ActsLikeARegister
+  acts_like_a_register_for_a :promise
 end
